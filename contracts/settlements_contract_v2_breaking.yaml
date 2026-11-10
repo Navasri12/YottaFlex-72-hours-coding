@@ -1,0 +1,65 @@
+# ==============================================================================
+# Enterprise B2B Multi-Currency Settlement Ledger - Breaking Evolution v2.0.0-breaking
+# BREAKING CHANGES:
+#  1. Dropped required foreign key column: account_id
+#  2. Incompatible type conversion: settlement_amount changed from float to string
+#  3. Removed allowed currencies: GBP, INR, JPY, SGD removed from permitted currency set
+# ==============================================================================
+
+contract_name: fact_settlement_ledger
+version: 2.0.0-breaking
+domain: financial_services
+owner: rogue-upstream-producer@unauthorized.org
+target_table: fact_settlement_ledger
+description: BREAKING update that violates contract invariants and breaks downstream analytical consumers.
+
+schema:
+  fields:
+    - name: transaction_id
+      type: string
+      required: true
+      nullable: false
+      description: Unique settlement transaction primary identifier.
+
+    # BREAKING DRIFT 1: Dropped required column 'account_id'
+
+    - name: settlement_amount
+      type: string  # BREAKING DRIFT 2: Changed from float to string
+      required: true
+      nullable: false
+      description: Incompatible string representation of amount (e.g. '$100.50').
+
+    - name: currency
+      type: string
+      required: true
+      nullable: false
+      allowed_values: # BREAKING DRIFT 3: Removed GBP, INR, JPY, SGD
+        - USD
+        - EUR
+      description: Severely restricted currency set.
+
+    - name: settlement_type
+      type: string
+      required: true
+      nullable: false
+      allowed_values:
+        - INVOICE_SETTLEMENT
+        - TREASURY_TRANSFER
+      description: Restricted settlement types.
+
+    - name: status
+      type: string
+      required: true
+      nullable: false
+      allowed_values:
+        - COMPLETED
+        - PENDING
+      description: Operational lifecycle status.
+
+    - name: event_timestamp
+      type: timestamp
+      required: true
+      nullable: false
+      format: iso-8601
+      description: UTC transaction event timestamp in ISO-8601 format.
+

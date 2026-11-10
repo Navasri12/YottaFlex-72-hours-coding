@@ -1,0 +1,59 @@
+{
+  "run_id": "RUN_86E0CDD585F8",
+  "timestamp": "2026-11-10T03:43:35.325585+00:00",
+  "batch_file": "custom_data.csv",
+  "contract_version": "1.0.0",
+  "pipeline_status": "PARTIAL_SUCCESS_WITH_QUARANTINE",
+  "execution_time_seconds": 0.2569013999964227,
+  "total_input_rows": 27,
+  "clean_rows_loaded": 20,
+  "quarantined_rows": 7,
+  "row_discrepancy": 0,
+  "row_reconciliation_status": "BALANCED",
+  "total_input_amount_parsed": 4658044.32,
+  "clean_amount_loaded": 4641844.33,
+  "quarantined_amount_parsed": 16199.99,
+  "amount_discrepancy": 0.0,
+  "financial_reconciliation_status": "BALANCED",
+  "unparseable_or_non_positive_amount_count": 3,
+  "error_summary": {
+    "ERR_NON_POSITIVE_AMOUNT": 3,
+    "ERR_FK_ACCOUNT_NOT_FOUND": 1,
+    "ERR_UNSUPPORTED_CURRENCY": 1,
+    "ERR_MALFORMED_TIMESTAMP": 1,
+    "ERR_DUPLICATE_IN_BATCH": 1
+  },
+  "currency_breakdown": [
+    {
+      "currency": "JPY",
+      "txn_count": 16562,
+      "total_amount": 91699132.79
+    },
+    {
+      "currency": "INR",
+      "txn_count": 16304,
+      "total_amount": 85359763.68
+    },
+    {
+      "currency": "USD",
+      "txn_count": 16280,
+      "total_amount": 84463570.9
+    },
+    {
+      "currency": "GBP",
+      "txn_count": 16415,
+      "total_amount": 83685227.54
+    },
+    {
+      "currency": "SGD",
+      "txn_count": 16304,
+      "total_amount": 82728354.88
+    },
+    {
+      "currency": "EUR",
+      "txn_count": 16173,
+      "total_amount": 82444687.42
+    }
+  ],
+  "schema_drift_summary": null
+}

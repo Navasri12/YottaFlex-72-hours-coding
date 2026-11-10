@@ -1,0 +1,91 @@
+# ==============================================================================
+# Enterprise B2B Multi-Currency Settlement Ledger - Non-Breaking Evolution v2.0.0
+# Non-breaking additions: introduces optional fx_rate and counterparty_lei columns with defaults.
+# ==============================================================================
+
+contract_name: fact_settlement_ledger
+version: 2.0.0
+domain: financial_services
+owner: financial-data-platform@yottaflex.ai
+target_table: fact_settlement_ledger
+description: Non-breaking evolutionary contract adding optional FX rate and Legal Entity Identifier (LEI) attributes.
+
+schema:
+  fields:
+    - name: transaction_id
+      type: string
+      required: true
+      nullable: false
+      description: Unique settlement transaction primary identifier (e.g., TXN_90001).
+
+    - name: account_id
+      type: string
+      required: true
+      nullable: false
+      description: Foreign key referencing dim_corporate_accounts.account_id.
+      references:
+        table: dim_corporate_accounts
+        column: account_id
+
+    - name: settlement_amount
+      type: float
+      required: true
+      nullable: false
+      min_value: 0.01
+      description: Monetary settlement amount. Must be strictly positive and non-zero (> 0.00).
+
+    - name: currency
+      type: string
+      required: true
+      nullable: false
+      allowed_values:
+        - USD
+        - EUR
+        - GBP
+        - INR
+        - JPY
+        - SGD
+      description: Permitted 3-letter ISO-4217 settlement currency code.
+
+    - name: settlement_type
+      type: string
+      required: true
+      nullable: false
+      allowed_values:
+        - INVOICE_SETTLEMENT
+        - TREASURY_TRANSFER
+        - MERCHANT_PAYOUT
+        - REFUND
+      description: Business category of settlement transaction.
+
+    - name: status
+      type: string
+      required: true
+      nullable: false
+      allowed_values:
+        - COMPLETED
+        - PENDING
+        - FLAGGED
+      description: Settlement operational lifecycle status.
+
+    - name: event_timestamp
+      type: timestamp
+      required: true
+      nullable: false
+      format: iso-8601
+      description: UTC transaction event timestamp in ISO-8601 format (YYYY-MM-DDTHH:MM:SSZ).
+
+    - name: fx_rate
+      type: float
+      required: false
+      nullable: true
+      default: 1.0
+      description: Foreign exchange rate relative to USD at time of transaction settlement.
+
+    - name: counterparty_lei
+      type: string
+      required: false
+      nullable: true
+      default: null
+      description: 20-character ISO-17442 Legal Entity Identifier (LEI) of the counterparty.
+
